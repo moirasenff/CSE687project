@@ -1,0 +1,9 @@
+﻿  dllmain.cpp
+  Reducer.cpp
+C:\Users\moira\source\repos\Reducer\Reducer\Reducer.hpp(14,14): warning C4251: 'Reducer::mOutDir': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Reducer'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstring(4927): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+  FileManager.cpp
+  Trie.cpp
+  Generating Code...
+     Creating library C:\Users\moira\source\repos\Reducer\x64\Debug\Reducer.lib and object C:\Users\moira\source\repos\Reducer\x64\Debug\Reducer.exp
+  Reducer.vcxproj -> C:\Users\moira\source\repos\Reducer\x64\Debug\Reducer.dll
