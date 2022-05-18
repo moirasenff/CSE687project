@@ -3,11 +3,15 @@
 #include <mutex>
 #include "Workflow.hpp"
 #include "FileManager.hpp"
-#include "Reducer.hpp"
-#include "Mapper.hpp"
+#include "vReducer.hpp"
+#include "vMapper.hpp"
+#include <Windows.h>
 
 std::atomic<int> keyCounter;
 std::mutex mutex;
+
+typedef vMapper* (*CREAT_MAP)();
+typedef vReducer* (*CREAT_RED)(std::string);
 
 bool Workflow::run(std::string inDir, std::string tempDir, std::string outDir) {
 	BOOST_LOG_TRIVIAL(info) << "Starting workflow.";
@@ -15,16 +19,38 @@ bool Workflow::run(std::string inDir, std::string tempDir, std::string outDir) {
 	std::vector<std::thread> threadVect;
 	keyCounter = 0;
 	static Trie* trieHead = new Trie();
-	Reducer reducer(outDir);
+
+	//Reducer reducer(outDir);
+	 //Load DLL:
+	HINSTANCE redDll = LoadLibrary(L".//Reducer.dll");
+
+	if (!redDll)
+	{
+		std::cout << "\nFailed to load Reducer dll." << std::endl;
+		return EXIT_FAILURE;
+	}
+	HINSTANCE mapDll = LoadLibrary(L".//Mapper.dll");
+	if (!mapDll)
+	{
+		std::cout << "\nFailed to load Mapper dll." << std::endl;
+		return EXIT_FAILURE;
+	}
+
+	//Create reducer and mapper
+	CREAT_RED redPtr = (CREAT_RED)GetProcAddress(redDll, "CreateReduceObj");
+	CREAT_MAP mapPtr = (CREAT_MAP)GetProcAddress(mapDll, "CreateMapperObj");
+	vReducer* reducer = redPtr(outDir);
+
 	auto start = std::chrono::high_resolution_clock::now();
 	try {
 		for (int i = 0; i < inVect.size(); i++) {
 			threadVect.emplace_back([=] {
 				// setup objects
-				Mapper mapper;
+				//Mapper mapper;
+				vMapper* mapper = mapPtr();
 				// for each file in the inDirectory
 				int threadKey = keyCounter++;
-				mapper.map(threadKey, inVect.at(i), tempDir);
+				mapper->map(threadKey, inVect.at(i), tempDir);
 				BOOST_LOG_TRIVIAL(info) << "Wrote temp file" << threadKey;
 				// temp dir now has intermediate files in it. now read it back in
 				std::vector<std::string> tempVect = FileManager::read(tempDir, threadKey);
@@ -35,7 +61,7 @@ bool Workflow::run(std::string inDir, std::string tempDir, std::string outDir) {
 			thread.join();
 		}
 		// trie is populated with string values. pump them out to the vector
-		if (reducer.reduce(trieHead)) {
+		if (reducer->reduce(trieHead)) {
 			BOOST_LOG_TRIVIAL(info) << "All files completed successfully!";
 		}
 		else {
@@ -50,6 +76,7 @@ bool Workflow::run(std::string inDir, std::string tempDir, std::string outDir) {
 	auto durationSec = std::chrono::duration_cast<std::chrono::seconds>(finish - start);
 	BOOST_LOG_TRIVIAL(info) << "Workflow took: " << durationSec.count() << "s to complete.";
 	return true;
+
 }
 
 void Workflow::sort(Trie* head, std::vector<std::string> inVect) {
@@ -84,7 +111,16 @@ bool Workflow::test() {
 	bool retVal = false;
 	_mkdir("test");
 	Workflow wf;
-	Reducer reducer("test");
+	//Reducer reducer("test");
+	HINSTANCE redDll = LoadLibrary(L".//Reducer.dll");
+	if (!redDll)
+	{
+		std::cout << "\nFailed to load Reducer dll." << std::endl;
+		return EXIT_FAILURE;
+	}
+	CREAT_RED redPtr = (CREAT_RED)GetProcAddress(redDll, "CreateTestObj");
+
+	vReducer* reducer = redPtr("test");
 	std::vector<std::string> tempVect;
 	tempVect.push_back("\"test\", 1");
 	tempVect.push_back("\"other\", 1");
@@ -98,7 +134,7 @@ bool Workflow::test() {
 		retVal = false;
 		goto clean_up;
 	}
-	if (reducer.reduce(trieHead)) {
+	if (reducer->reduce(trieHead)) {
 		retVal = true;
 	}
 	else {

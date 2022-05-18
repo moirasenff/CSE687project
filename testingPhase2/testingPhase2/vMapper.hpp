@@ -10,7 +10,7 @@ class VMap
 public:
 
 	virtual void map(int k, std::string c, std::string dir) = 0;
-	virtual bool test() = 0;
+//	virtual bool test() = 0;
 
 private:
 

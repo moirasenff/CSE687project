@@ -1,6 +1,6 @@
 #include "Tests.hpp"
 
-
+/*
 template <class T> bool Test::test(T actual, T expected, std::string testName) {
 	if (expected == actual) {
 		BOOST_LOG_TRIVIAL(debug) << "UNIT TEST: " << testName << " PASSED!";
@@ -25,4 +25,4 @@ bool Test::runTests() {
 	else {
 		return false;
 	}
-}
+} */

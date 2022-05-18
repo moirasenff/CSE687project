@@ -1,11 +1,8 @@
 // A Trie class modified from:
 // https://www.techiedelight.com/cpp-implementation-trie-data-structure/
 
-#ifdef TRIE_EXPORTS
-#define TRIE_API __declspec(dllexport)
-#else
-#define TRIE_API __declspec(dllimport)
-#endif
+#ifndef TRIE_H
+#define TRIE_H
 
 
 #include <string>
@@ -43,3 +40,5 @@ public:
     void increment(std::string);
     std::tuple<std::string, int> pop();
 };
+#endif
+
