@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-class VMap
+class vMapper
 {
 public:
 
