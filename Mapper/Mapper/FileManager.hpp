@@ -1,3 +1,6 @@
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
+
 #include <string>
 #include <vector>
 #include <sys/stat.h>
@@ -14,3 +17,5 @@ public:
 	static void printFinal(bool pass, std::string dir);
 	static bool test();
 };
+
+#endif

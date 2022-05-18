@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="FileManager.hpp" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="vMapper.hpp" />
     <ClInclude Include="Mapper.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="vMapper.dl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

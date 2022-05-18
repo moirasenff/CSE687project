@@ -17,6 +17,7 @@
 #include "FileManager.hpp"
 
 
+
  //constructor
 Mapper::Mapper(int c)
 /* :totalWord(c)*/
@@ -59,7 +60,7 @@ void Mapper::exporter(std::vector<std::string> vect, std::string dir, int key)
 	}
 	FileManager::write(outStr, dir, key);
 }
-
+/*
 bool Mapper::test() {
 	// tests map and export
 	try {
@@ -81,4 +82,8 @@ bool Mapper::test() {
 		std::filesystem::remove_all("test");
 		return false;
 	}
+} */
+
+MAPPER_API vMapper* _cdecl CreateMapperObj(int c) {
+	return new Mapper(c);
 }

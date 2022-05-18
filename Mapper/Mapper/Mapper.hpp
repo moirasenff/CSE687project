@@ -8,14 +8,19 @@
 #define MAPPER_API __declspec(dllimport)
 #endif
 
-class MAPPER_API Mapper {
+#include "vMapper.hpp"
+
+class Mapper : public vMapper {
 public:
-	explicit Mapper(int count = 0);
+	 Mapper(int count = 0);
 	void map(int k, std::string c, std::string dir);
-	static bool test();
+//	static bool test();
 private:
 	void exporter(std::vector<std::string> vect, std::string temp, int key);
 };
 
+extern "C" {
+	MAPPER_API vMapper* _cdecl CreateMapperObj(int c);
+}
 
 
