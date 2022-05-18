@@ -6,11 +6,11 @@
 #endif
 
 
-
 #include "Trie.hpp"
+#include "vReducer.hpp"
 
 
-class REDUCER_API Reducer {
+class Reducer : public vReducer {
 	std::string mOutDir;
 public:
 	// constructor takes in the out path
@@ -18,3 +18,7 @@ public:
 	// reduces the trie into a word and key (quantity) and calls export
 	bool reduce(Trie*);
 };
+
+extern "C" {
+	REDUCER_API vReducer* _cdecl CreateReduceObject(std::string);
+}

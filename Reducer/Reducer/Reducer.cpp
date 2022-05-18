@@ -16,3 +16,7 @@ bool Reducer::reduce(Trie* head) {
 	FileManager::write(outStr, mOutDir, -1);
 	return true;
 }
+
+REDUCER_API vReducer* _cdecl CreateReduceObject(std::string dir) {
+	return new Reducer(dir);
+}

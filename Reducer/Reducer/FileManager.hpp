@@ -1,8 +1,12 @@
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
+
 #include <string>
 #include <vector>
 #include <sys/stat.h>
 #include <direct.h>
 #include <filesystem>
+
 
 #pragma once
 
@@ -14,3 +18,5 @@ public:
 	static void printFinal(bool pass, std::string dir);
 	static bool test();
 };
+
+#endif

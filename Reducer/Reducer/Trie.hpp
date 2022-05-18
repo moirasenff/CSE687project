@@ -1,6 +1,10 @@
 // A Trie class modified from:
 // https://www.techiedelight.com/cpp-implementation-trie-data-structure/
 
+#ifndef TRIE_H
+#define TRIE_H
+
+
 #include <string>
 #include <tuple>
 #include <mutex>
@@ -36,3 +40,5 @@ public:
     void increment(std::string);
     std::tuple<std::string, int> pop();
 }; 
+
+#endif
