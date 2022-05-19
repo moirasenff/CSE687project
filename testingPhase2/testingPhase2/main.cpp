@@ -13,15 +13,14 @@ int main(int argc, char* argv[]) {
 		BOOST_LOG_TRIVIAL(warning) << "One or more unit tests failed!";
 	}
 
-	if (argc != 4) {
-		BOOST_LOG_TRIVIAL(error) << "Malformed arguments! Please run <executable> <input dir> <temp dir> <output dir>";
+	if (argc != 5) {
+		BOOST_LOG_TRIVIAL(error) << "Malformed arguments! Please run <executable> <input dir> <temp dir> <output dir> <dll path>";
 		return -1;
 	}
 	std::string input = argv[1];
 	std::string temp = argv[2];
 	std::string output = argv[3];
-//	std::string mapperDLL = argv[4]; //added mapper DLL link
-//	std::string reducerDLL = argv[5]; //added reducer DLL link
+	std::string dllPath = argv[4]; //added dll path
 	if (!FileManager::init(input, temp, output)) {
 		BOOST_LOG_TRIVIAL(error) << "Filesystem init failed to complete!";
 		return -1;
